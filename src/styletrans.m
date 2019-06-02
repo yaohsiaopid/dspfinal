@@ -1,0 +1,44 @@
+clear;
+clf;
+img   = im2double(imread('org_mit.jpg'));
+img = img(200:300, 200:300,:);
+img = imresize(img, 0.5);
+% img = img(400:500,400:500);
+subplot(311);
+
+r = img(:,:,1);
+imshow(r);
+subplot(312);
+f = fft(img(:,:,1));
+A = f;
+[M N] = size(f);
+[X,Y] = meshgrid(0:N-1, 0:M-1);
+surf(X, Y, log10(abs(fftshift(f))));
+% imagesc(log10(abs(fftshift(f)))); colormap(gray);
+title("r channel fft original.png");
+subplot(313);
+% imagesc(angle(f));  colormap(gray);
+surf(X, Y, angle(fftshift(f)));
+
+figure;
+img   = im2double(imread('sty_mit.jpg'));
+img = img(200:300, 200:300,:);
+% img = img(400:500,300:400);
+img = imresize(img, 0.5);
+subplot(311);
+
+r = img(:,:,1);
+imshow(r);
+f = fft(img(:,:,1));
+subplot(312);
+f = fft(img(:,:,1));
+B = f;
+[M N] = size(f);
+[X,Y] = meshgrid(0:N-1, 0:M-1);
+surf(X, Y, log10(abs(fftshift(f))));
+% imagesc(log10(abs(fftshift(f)))); colormap(gray);
+title("r channel fft styled.png");
+subplot(313);
+% imagesc(angle(f));  colormap(gray);
+surf(X, Y, angle(fftshift(f)));
+% R = corrcoef(angle(A),angle(B));
