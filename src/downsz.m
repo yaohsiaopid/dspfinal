@@ -1,7 +1,7 @@
 % downsz
 clear;
 close all;
-im = imread('../img/tubingen.jpg');
+im = imread('../img/golden_gate.jpg');
 
 % Iblur = imgaussfilt(im, 2);
 % 
@@ -14,4 +14,4 @@ im = imread('../img/tubingen.jpg');
 % % final = Iblur(
 % imshow(imresize(im,[256,256]));
 tmp = imresize(im, [256, NaN]);
-imwrite(tmp, '../img/tubingen_rs.png');
+imwrite(tmp, '../img/golden_gate_rs.png');

@@ -2,6 +2,7 @@ clear
 close all;
 img = imread('../img/tubingen_rs.png');
 styled = imread('../img/tubingen_starry.png');
+figure('NumberTitle', 'off', 'Name', 'This is the figure title');
 subplot(2,3,1);
 imshow(img(:,:,1));
 subplot(2,3,2);
@@ -22,29 +23,32 @@ M = size(A,2);
 N = size(A,1); 
 [x y] = meshgrid(linspace(-M/2, M/2, M), linspace(-N/2, N/2, N));
 figure;
+subplot(2,2,1);
 surf(x*2/M, y*2/N, 20*log10(abs(A(:,:,1))));
 rotate3d on;
-
-figure;
+% figure;
 B = fftshift(fft2(sty_chan));
 M = size(B,2);
 N = size(B,1); 
 [x y] = meshgrid(linspace(-M/2, M/2, M), linspace(-N/2, N/2, N));
-figure;
+% figure;
+subplot(2,2,2);
 surf(x*2/M, y*2/N, 20*log10(abs(B(:,:,1))));
 rotate3d on;
 
 
 % figure(3)
 tmp = 20*log10(abs(B(:,:,1)./A(:,:,1)));
-figure;
+% figure;
+subplot(2,2,3);
 surf(x*2/M, y*2/N, tmp);
 rotate3d on;
 
 
 tmp = 20*log10(abs(B(:,:,1)-A(:,:,1)));
 tmp(tmp<80) = 0;
-figure;
+% figure;
+subplot(2,2,4);
 surf(x*2/M, y*2/N, tmp);
 rotate3d on;
 
