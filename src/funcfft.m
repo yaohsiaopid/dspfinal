@@ -31,7 +31,8 @@ N = size(B,1);
 [x y] = meshgrid(linspace(-M/2, M/2, M), linspace(-N/2, N/2, N));
 
 subplot(1,3,1);
-tmp = 20*log10(abs(B(:,:,1)./A(:,:,1)));
+% tmp = 20*log10(abs(B(:,:,1)./A(:,:,1)));
+tmp = 20*log10(abs(B(:,:,1)));
 surf(x*2/M, y*2/N, tmp);
 view(2);
 title('styl/im (dB)');
