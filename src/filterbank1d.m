@@ -4,7 +4,8 @@
 close all;
 clear;
 clf;
-ws = 0.12 * pi; Ap = 0.5; wp = 0.08 * pi; As = 50;
+figure
+ws = 0.11 * pi; Ap = 0.5; wp = 0.09 * pi; As = 50;
 deltap = ((10^(Ap/20))-1)/(10^(Ap/20)+1);
 deltas = (1+deltap)/10^(As/(20));
 delta = min(deltap,deltas); A = -20*log10(delta);
