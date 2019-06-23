@@ -1,7 +1,9 @@
 % downsz
 clear;
 close all;
-im = imread('../img/golden_gate.jpg');
+fl = 'toysflash';
+f = ['../img/' fl '.png'];
+im = imread(f);
 
 % Iblur = imgaussfilt(im, 2);
 % 
@@ -14,4 +16,5 @@ im = imread('../img/golden_gate.jpg');
 % % final = Iblur(
 % imshow(imresize(im,[256,256]));
 tmp = imresize(im, [256, NaN]);
-imwrite(tmp, '../img/golden_gate_rs.png');
+out = ['../img/' fl '_rs.png'];
+imwrite(tmp, out);
