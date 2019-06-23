@@ -1,4 +1,4 @@
-function funcfft(img_path, styled_path)
+function [filter, org] = funcfft(img_path, styled_path, disp)
 % clear
 % close all;
 img = imread(img_path);
@@ -19,7 +19,7 @@ styled = imread(styled_path);
 % imshow(styled(:,:,3));
 
 % --------------------------------------------
-figure('NumberTitle', 'off', 'Name', sprintf('analysis %s ',img_path));
+
 chan = img(:,:,1);
 sty_chan = styled(:,:,1);
 % chan_test = test(:,:,1);
@@ -42,28 +42,32 @@ N = size(B,1);
 [x y] = meshgrid(linspace(-M/2, M/2, M), linspace(-N/2, N/2, N));
 % 
 subplot(1,3,1);
+org = abs(A(:,:,1));
+filter = abs(B(:,:,1)./A(:,:,1));
 tmp = 20*log10(abs(B(:,:,1)./A(:,:,1)));
 % tmp = 20*log10(abs(B(:,:,1)));
-surf(x*2/M, y*2/N, tmp);
-view(2);
-title('styl/im (dB)');
-rotate3d on;
+if(disp == 1) 
+    figure('NumberTitle', 'off', 'Name', sprintf('analysis %s ',img_path));
+    surf(x*2/M, y*2/N, tmp);
+    view(2);
+    title('styl/im (dB)');
+    rotate3d on;
 
 
-tmp = 20*log10(abs(B(:,:,1)-A(:,:,1)));
-subplot(1,3,2);
-surf(x*2/M, y*2/N, tmp);
-view(2);
-title('styl- im (dB)');
-rotate3d on;
+    tmp = 20*log10(abs(B(:,:,1)-A(:,:,1)));
+    subplot(1,3,2);
+    surf(x*2/M, y*2/N, tmp);
+    view(2);
+    title('styl- im (dB)');
+    rotate3d on;
 
-ang = angle(B(:,:,1))-angle(A(:,:,1));
-subplot(1,3,3);
-surf(x*2/M, y*2/N, 180*ang/pi);
-view(2);
-title('styl- im angle');
-rotate3d on;
-
+    ang = angle(B(:,:,1))-angle(A(:,:,1));
+    subplot(1,3,3);
+    surf(x*2/M, y*2/N, 180*ang/pi);
+    view(2);
+    title('styl- im angle');
+    rotate3d on;
+end
 
 
 
