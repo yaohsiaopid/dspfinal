@@ -40,6 +40,7 @@ cnt = 0;
 for idx=1:4096
     tx = imgs(:, idx);
     ty = filters(:, idx);
+    disp(idx)
     if( sum(isnan(ty(:))) == 0 && sum(isnan(tx(:))) == 0  && sum(isinf(tx(:))) == 0  &&sum(isinf(ty(:))) == 0 ) 
         tx = (tx-mean(tx))/std(tx);
         ty = (ty-mean(ty))/std(ty);

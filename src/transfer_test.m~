@@ -1,0 +1,4 @@
+close all;
+im1=funcfft_transfer('../img/chicago_rs.png', '../img/chicago_starry.png', '../img/golden_gate_rs.png');
+im2=funcfft_transfer('../img/photo-1558446007-a2e07be0b0c4_rs.png', '../img/photo-1558446007-a2e07be0b0c4_starry.png', '../img/golden_gate_rs.png');
+figure; imshow((im1 + im2 )

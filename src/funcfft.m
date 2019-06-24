@@ -43,7 +43,8 @@ N = size(B,1);
 % 
 
 org = abs(A(:,:,1));
-filter = abs(B(:,:,1)./A(:,:,1));
+% filter = abs(B(:,:,1)./A(:,:,1));
+filter = (B(:,:,1)./A(:,:,1));
 tmp = 20*log10(abs(B(:,:,1)./A(:,:,1)));
 % tmp = 20*log10(abs(B(:,:,1)));
 if(disp == 1) 

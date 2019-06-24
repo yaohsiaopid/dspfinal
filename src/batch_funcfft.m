@@ -5,19 +5,31 @@
 % [x y] = meshgrid(linspace(-M/2, M/2, M), linspace(-N/2, N/2, N));
 % figure; surf(x*2/M, y*2/N, 180/pi*(angle(A(:,:,1))));
 % figure; surf(x*2/M, y*2/N, 20*log10(abs(A(:,:,1))));
-close
-arr = ["car1"
-,"car2"
-,"chicago"
-,"foggysf1"
-,"foosball"
-,"golden_gate"
-,"hoovertowernight"
-,"micromarket"
-,"mit"
-,"toysflash"
-,"trailer"
-,"tubingen"];
+% close
+arr = ["000000000139",
+"000000000632",
+"000000298396",
+"000000298697",
+"000000299609",
+"000000319935",
+"000000419201",
+"000000529568",
+"000000529966",
+"car1",
+"car2",
+"chicago",
+"foggysf1",
+"foosball",
+"golden_gate",
+"hoovertowernight",
+"john-reed-727447-unsplash",
+"micromarket",
+"mit",
+"photo-1558446007-a2e07be0b0c4",
+"tomasz-filipek-1175510-unsplash",
+"toysflash",
+"trailer",
+"tubingen"];
 filters = [];
 imgs = [];
 for i = 1:length(arr)
@@ -30,24 +42,23 @@ for i = 1:length(arr)
         disp("fail");
         continue
     end
-    [F imgX] = funcfft(fil, styl, 0);
+    [F imgX] = funcfft(fil, styl, 1);
     filters = [filters; F(:)'];
     imgs = [imgs; imgX(:)'];
 end
 
-t = 1;
-for i = 1:12
-    idx = randi(4096);
-    tx = imgs(:, idx);
-    ty = filters(:, idx);
-    tx = (tx-mean(tx))/std(tx);
-    ty = (ty-mean(ty))/std(ty);
-    subplot(4,3,t);
-    t = t + 1;
-    scatter(tx, ty);
-    [ft, gof, output] = fit(tx, ty, 'exp2');
-    
-    hold on;
-    plot(ft);
-    title(gof.rsquare);
-end
+% for t = 1:12
+%     idx = randi(4096);
+%     tx = imgs(:, idx);
+%     ty = filters(:, idx);
+%     sss = std(ty);
+%     tx = (tx-mean(tx))/std(tx);
+%     ty = (ty-mean(ty))/std(ty);
+%     subplot(4,3,t);
+%     scatter(tx, ty);
+%     [ft, gof, output] = fit(tx, ty, 'exp2');
+%     
+% %     hold on;
+%     plot(ft, tx, ty);
+%     title(sprintf("%f | %f", gof.rsquare, sss));
+% end
