@@ -1,8 +1,8 @@
 % downsz
 clear;
 close all;
-fl = 'toysflash';
-f = ['../img/' fl '.png'];
+fl = 'photo-1558446007-a2e07be0b0c4';
+f = ['../tmp/' fl '.jpeg'];
 im = imread(f);
 
 % Iblur = imgaussfilt(im, 2);
