@@ -11,7 +11,7 @@ r = sqrt(f1.^2 + f2.^2);
 
 % Create a matrix Hd that contains the desired bandpass response. In this example, the desired passband is between 0.1 and 0.5 (normalized frequency, where 1.0 corresponds to half the sampling frequency, or  radians).
 Hd = ones(sz); 
-Hd((r<0.5)|(r>0.7)) = 0;
+Hd((r<0.)|(r>0.7)) = 0;
 
 % Display the ideal bandpass response.
 colormap(parula(64))
@@ -34,7 +34,10 @@ plot(linspace(-1,1,L),win);
 h = fwind1(Hd,win);
 
 % Display the actual frequency response of this filter.
-freqz2(h)
+freqz2(h*10)
+h = h * 10;
+save('bpfil_5_7.mat', 'h');
+
 % view(90,0);
 % view(2);
 

@@ -43,8 +43,9 @@ for i = 1:length(arr)
         continue
     end
     [F imgX] = funcfft(fil, styl, 1);
-    filters = [filters; F(:)'];
-    imgs = [imgs; imgX(:)'];
+%     filters = [filters; F(:)'];
+%     imgs = [imgs; imgX(:)'];
+    break;
 end
 
 % for t = 1:12
