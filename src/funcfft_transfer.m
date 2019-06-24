@@ -1,29 +1,16 @@
-function re = funcfft_transfer(img_path, styled_path, test_on)
+function re = funcfft_transfer(img_path, styled_path, test_on, test_gnd)
 % clear
 % close all;
 img = imread(img_path);
 styled = imread(styled_path);
 test = imread(test_on);
-figure;
-imshow(test(:,:,1));
-% styled_path
-% figure('NumberTitle', 'off', 'Name', img_path);
-% subplot(2,3,1);
-% imshow(img(:,:,1));
-% subplot(2,3,2);
-% imshow(img(:,:,2));
-% subplot(2,3,3);
-% imshow(img(:,:,3));
-% subplot(2,3,4);
-% imshow(styled(:,:,1));
-% subplot(2,3,5);
-% imshow(styled(:,:,2));
-% subplot(2,3,6);
-% imshow(styled(:,:,3));
 
 % --------------------------------------------
 % figure('NumberTitle', 'off', 'Name', sprintf('analysis %s ',img_path));
-
+f = figure('Visible', 'off');
+subplot(1,3,1);
+gnd = imread(test_gnd);
+imshow(gnd(:,:,1));
 chan = img(:,:,1);
 sty_chan = styled(:,:,1);
 chan_test = test(:,:,1);
@@ -47,14 +34,20 @@ tmp2 = B./A;
 idx = abs(20*log10(tmp2)) < 10 ;
 tmp2(idx) = tmp2(idx)./abs(tmp2(idx));
 final_ = C.*tmp;
-figure('NumberTitle', 'off', 'Name', 'only phase');
-imshow(uint8(ifft2(ifftshift(final_))));
+% figure('NumberTitle', 'off', 'Name', 'only phase');
+final_img = ifft2(ifftshift(final_));
+subplot(1,3,2);
+imshow(uint8(final_img(1:size(test,1), 1:size(test,2))));
+title('only phase');
 
 final = final_ .* tmp2;
 re = ifft2(ifftshift(final));
-figure('NumberTitle', 'off', 'Name', 'phase and amp');
-imshow(uint8(re));
+% figure('NumberTitle', 'off', 'Name', 'phase and amp');
+subplot(1,3,3);
+imshow(uint8(re(1:size(test,1), 1:size(test,2))));
+title('phase and amp');
 re = uint8(re);
+saveas(gcf, sprintf('../plt/transfer_%s.png', img_path(8:length(img_path)-4)));
 % figure;
 % [x y] = meshgrid(1:size(ang,2), 1:size(ang,1));
 % surf(x, y, 180/pi*ang);
@@ -65,7 +58,7 @@ re = uint8(re);
 % N = size(B,1); 
 % [x y] = meshgrid(linspace(-M/2, M/2, M), linspace(-N/2, N/2, N));
 % 
-% subplot(1,3,1);
+% subplot(1,1,3);
 % tmp = 20*log10(abs(B(:,:,1)./A(:,:,1)));
 % % tmp = 20*log10(abs(B(:,:,1)));
 % surf(x*2/M, y*2/N, tmp);

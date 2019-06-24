@@ -48,27 +48,32 @@ filter = (B(:,:,1)./A(:,:,1));
 tmp = 20*log10(abs(B(:,:,1)./A(:,:,1)));
 % tmp = 20*log10(abs(B(:,:,1)));
 if(disp == 1) 
-    figure('NumberTitle', 'off', 'Name', sprintf('analysis %s ',img_path));
-    subplot(1,3,1);
-    surf(x*2/M, y*2/N, tmp);
-    view(2);
-    title('styl/im (dB)');
-    rotate3d on;
-
-
-    tmp = 20*log10(abs(B(:,:,1)-A(:,:,1)));
+    f = figure('visible', 'off');
+%     figure('NumberTitle', 'off', 'Name', sprintf('analysis %s ',img_path));
     subplot(1,3,2);
     surf(x*2/M, y*2/N, tmp);
     view(2);
-    title('styl- im (dB)');
-    rotate3d on;
+    title('styl/im (dB)');
+%     rotate3d on;
+
+
+%     tmp = 20*log10(abs(B(:,:,1)-A(:,:,1)));
+    subplot(1,3,1);
+    hist(20*log10(abs(A(:))));
+    title('in image hist of spectral');
+%     surf(x*2/M, y*2/N, tmp);
+%     view(2);
+%     title('styl- im (dB)');
+%     rotate3d on;
 
     ang = angle(B(:,:,1))-angle(A(:,:,1));
     subplot(1,3,3);
     surf(x*2/M, y*2/N, 180*ang/pi);
     view(2);
     title('styl- im angle');
-    rotate3d on;
+%     rotate3d on;
+    saveas(gcf, sprintf('../plt/fft_%s.png', img_path(8:length(img_path)-4)));
+%     close;
 end
 
 

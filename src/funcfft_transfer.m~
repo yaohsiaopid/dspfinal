@@ -1,29 +1,22 @@
-function re = funcfft_transfer(img_path, styled_path, test_on)
+function re = funcfft_transfer(img_path, styled_path, test_on, test_gnd)
 % clear
 % close all;
 img = imread(img_path);
 styled = imread(styled_path);
 test = imread(test_on);
-% styled_path
-% figure('NumberTitle', 'off', 'Name', img_path);
-% subplot(2,3,1);
-% imshow(img(:,:,1));
-% subplot(2,3,2);
-% imshow(img(:,:,2));
-% subplot(2,3,3);
-% imshow(img(:,:,3));
-% subplot(2,3,4);
-% imshow(styled(:,:,1));
-% subplot(2,3,5);
-% imshow(styled(:,:,2));
-% subplot(2,3,6);
-% imshow(styled(:,:,3));
 
 % --------------------------------------------
-figure('NumberTitle', 'off', 'Name', sprintf('analysis %s ',img_path));
-chan = imresize(img(:,:,1), [64 64]);
-sty_chan = imresize(styled(:,:,1), [64 64]);
-chan_test = imresize(test(:,:,1), [64 64]);
+% figure('NumberTitle', 'off', 'Name', sprintf('analysis %s ',img_path));
+f = figur
+subplot(3,1,1);
+gnd = imread(test_gnd);
+imshow(gnd(:,:,1));
+chan = img(:,:,1);
+sty_chan = styled(:,:,1);
+chan_test = test(:,:,1);
+% chan = imresize(img(:,:,1), [64 64]);
+% sty_chan = imresize(styled(:,:,1), [64 64]);
+% chan_test = imresize(test(:,:,1), [64 64]);
 N1 = size(chan, 1);
 N2 = size(chan, 2);
 L1 = size(chan_test, 1);
@@ -36,16 +29,27 @@ B = fftshift(fft2(sty_chan, N1+L1-1, N2+L2-1));
 C = fftshift(fft2(chan_test, N1+L1-1, N2+L2-1));
 ang = angle(B(:,:,1))-angle(A(:,:,1));
 tmp = ones(size(B,1), size(B,2));
-tmp(abs(ang)*180/pi > 300) =  exp(j*ang(abs(ang)*180/pi > 300)));
-tmp = B./A;
-tmp(abs(20*log10(tmp)) < 10) = 1;
-final = C.*tmp;
+tmp(abs(ang)*180/pi > 10) =  exp(-j*(ang(abs(ang)*180/pi > 10)));
+tmp2 = B./A;
+idx = abs(20*log10(tmp2)) < 10 ;
+tmp2(idx) = tmp2(idx)./abs(tmp2(idx));
+final_ = C.*tmp;
+% figure('NumberTitle', 'off', 'Name', 'only phase');
+final_img = ifft2(ifftshift(final_));
+subplot(3,1,2);
+imshow(uint8(final_img(1:size(img,1), 1:size(img,2))));
+title('only phase');
+
+final = final_ .* tmp2;
 re = ifft2(ifftshift(final));
-imshow(uint8(re));
+% figure('NumberTitle', 'off', 'Name', 'phase and amp');
+subplot(3,1,3);
+imshow(uint8(re(1:size(img,1), 1:size(img,2))));
+title('phase and amp');
 re = uint8(re);
-figure;
-[x y] = meshgrid(1:size(ang,2), 1:size(ang,1));
-surf(x, y, 180/pi*ang);
+% figure;
+% [x y] = meshgrid(1:size(ang,2), 1:size(ang,1));
+% surf(x, y, 180/pi*ang);
 % % % count zero
 % % idx = (A == 0);
 % % cnt = sum(idx(:))
