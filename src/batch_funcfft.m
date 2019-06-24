@@ -42,24 +42,27 @@ for i = 1:length(arr)
         disp("fail");
         continue
     end
-    [F imgX] = funcfft(fil, styl, 1);
-%     filters = [filters; F(:)'];
-%     imgs = [imgs; imgX(:)'];
-    break;
+    [F imgX] = funcfft(fil, styl, 0);
+    filters = [filters; F(:)'];
+    imgs = [imgs; imgX(:)'];
+%     break;
 end
-
-% for t = 1:12
-%     idx = randi(4096);
-%     tx = imgs(:, idx);
-%     ty = filters(:, idx);
-%     sss = std(ty);
-%     tx = (tx-mean(tx))/std(tx);
-%     ty = (ty-mean(ty))/std(ty);
-%     subplot(4,3,t);
-%     scatter(tx, ty);
-%     [ft, gof, output] = fit(tx, ty, 'exp2');
-%     
-% %     hold on;
-%     plot(ft, tx, ty);
-%     title(sprintf("%f | %f", gof.rsquare, sss));
-% end
+figure('NumberTitle', 'off', 'Name', 'amplitude');
+for t = 1:12
+    idx = randi(4096);
+    tx = imgs(:, idx);
+    ty = filters(:, idx);
+    idx = (abs(ty - mean(ty)) < 2*std(ty));
+    ty = ty(idx);
+    tx = tx(idx);
+    sss = std(ty);
+    tx = (tx-mean(tx))/std(tx);
+    ty = (ty-mean(ty))/std(ty);
+    subplot(4,3,t);
+    scatter(tx, ty);
+    [ft, gof, output] = fit(tx, ty, 'poly1');
+    
+    hold on;
+    plot(ft, tx, ty);
+    title(sprintf("%f | %f | %d", gof.rsquare, sss, sum(idx(:))));
+end
